@@ -207,6 +207,9 @@ const applyFilters = (): void => {
         .map(button => button.textContent?.trim())
         .filter((size): size is string => size !== undefined);
     
+    const checkedPrices = Array.from(document.querySelectorAll<HTMLInputElement>('.filters__item input[name="preco"]:checked'))
+        .map(input => input.value);
+    
     let filteredProducts = [...products];
     
     // Filter by color
@@ -221,6 +224,20 @@ const applyFilters = (): void => {
         filteredProducts = filteredProducts.filter(product => 
             product.size.some(size => activeSize.includes(size))
         );
+    }
+    
+    // Filter by price
+    if (checkedPrices.length > 0) {
+        filteredProducts = filteredProducts.filter(product => {
+            return checkedPrices.some(range => {
+                const [min, max] = range.split('-').map(Number);
+                if (range === '500+') {
+                    return product.price >= 500;
+                } else {
+                    return product.price >= min && product.price <= (max || Infinity);
+                }
+            });
+        });
     }
     
     currentProducts = filteredProducts;
@@ -241,6 +258,11 @@ sizeButtons.forEach(button => {
         button.classList.add('active');
         applyFilters();
     });
+});
+
+const priceCheckboxes = document.querySelectorAll('.filters__item input[name="preco"]');
+priceCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', applyFilters);
 });
 
 function main() {
