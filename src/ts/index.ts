@@ -252,10 +252,16 @@ filterCheckboxes.forEach(checkbox => {
 sizeButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         e.preventDefault();
-        // Remove active class from all buttons
-        sizeButtons.forEach(btn => btn.classList.remove('active'));
-        // Add active class to clicked button
-        button.classList.add('active');
+        
+        // Se o botão clicado já está ativo, desativa ele
+        if (button.classList.contains('active')) {
+            button.classList.remove('active');
+        } else {
+            // Se não está ativo, remove active de todos e ativa este
+            sizeButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+        
         applyFilters();
     });
 });
@@ -264,6 +270,30 @@ const priceCheckboxes = document.querySelectorAll('.filters__item input[name="pr
 priceCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('change', applyFilters);
 });
+
+// Show/Hide extra colors
+const showMoreColorsBtn = document.querySelector('.show-more-colors');
+const extraColors = document.querySelectorAll('.color-extra');
+let colorsExpanded = false;
+
+if (showMoreColorsBtn) {
+    showMoreColorsBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        colorsExpanded = !colorsExpanded;
+        
+        extraColors.forEach(color => {
+            if (colorsExpanded) {
+                color.classList.remove('hidden');
+                color.classList.add('show');
+                (showMoreColorsBtn as HTMLElement).textContent = 'Ver menos cores';
+            } else {
+                color.classList.add('hidden');
+                color.classList.remove('show');
+                (showMoreColorsBtn as HTMLElement).textContent = 'Ver todas as cores';
+            }
+        });
+    });
+}
 
 function main() {
     console.log('Initializing product grid...');

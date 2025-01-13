@@ -82,35 +82,73 @@ body {
 
   &__list {
     list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
   &__item {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    
-    label {
-      font-size: 14px;
-      color: var(--color-gray-dark);
-      cursor: pointer;
+
+    &.hidden {
+      display: none;
+    }
+
+    &.show {
+      display: flex;
     }
 
     input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
       width: 16px;
       height: 16px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-right: 8px;
+      position: relative;
       cursor: pointer;
+
+      &:checked {
+        border-color: #ff8833;
+        background-color: #fff;
+
+        &::after {
+          content: '';
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          background-color: #ff8833;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border-radius: 2px;
+        }
+      }
+
+      &:hover {
+        border-color: #ff8833;
+      }
     }
 
-    &--more {
-      a {
-        color: var(--color-primary);
-        text-decoration: none;
-        font-size: 14px;
-        
-        &:hover {
-          text-decoration: underline;
-        }
+    label {
+      cursor: pointer;
+      font-size: 14px;
+      color: #333;
+    }
+  }
+
+  &__item--more {
+    margin-top: 15px;
+
+    a {
+      color: #ff8833;
+      text-decoration: none;
+      font-size: 14px;
+      
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
@@ -152,16 +190,32 @@ body {
   }
 
   &__sort {
-    padding: 8px 16px;
-    border: 1px solid var(--color-gray-light);
+    padding: 8px 12px;
+    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    color: var(--color-gray-dark);
+    color: #333;
+    background-color: #fff;
     cursor: pointer;
-    
-    &:focus {
-      outline: none;
-      border-color: var(--color-primary);
+    outline: none;
+    min-width: 150px;
+
+    &:hover {
+      border-color: #ff8833;
+    }
+
+    option {
+      padding: 8px;
+      
+      &:hover {
+        background-color: #ff8833;
+        color: #fff;
+      }
+
+      &:checked {
+        background-color: #ff8833;
+        color: #fff;
+      }
     }
   }
 
