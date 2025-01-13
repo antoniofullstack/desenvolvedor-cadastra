@@ -8,6 +8,7 @@ interface Product {
     price: number;
     image: string;
     installments: number;
+    color: string;
 }
 
 // Product data
@@ -17,63 +18,72 @@ const products: Product[] = [
         name: 'CAMISETA MESCLA',
         price: 28.00,
         image: 'img/img_2.png',
-        installments: 3
+        installments: 3,
+        color: 'cinza'
     },
     {
         id: 2,
         name: 'SAIA EM COURO',
         price: 398.00,
         image: 'img/img_3.png',
-        installments: 10
+        installments: 10,
+        color: 'branco'
     },
     {
         id: 3,
         name: 'CARDIGAN TIGRE',
         price: 398.00,
         image: 'img/img_4.png',
-        installments: 10
+        installments: 10,
+        color: 'laranja'
     },
     {
         id: 4,
         name: 'CARDIGAN OFF WHITE',
         price: 99.90,
         image: 'img/img_5.png',
-        installments: 3
+        installments: 3,
+        color: 'branco'
     },
     {
         id: 5,
         name: 'BODY LEOPARDO',
         price: 129.90,
         image: 'img/img_6.png',
-        installments: 3
+        installments: 3,
+        color: 'amarelo'
     },
     {
         id: 6,
         name: 'CASACO PELOS',
         price: 398.00,
         image: 'img/img_7.png',
-        installments: 10
+        installments: 10,
+        color: 'azul'
     },
     {
         id: 7,
         name: 'CROPPED STRIPES',
         price: 120.00,
         image: 'img/img_8.png',
-        installments: 3
+        installments: 3,
+        color: 'amarelo'
     },
     {
         id: 8,
         name: 'CAMISA TRANSPARENTE',
         price: 398.00,
         image: 'img/img_9.png',
-        installments: 10
+        installments: 10,
+        color: 'branco'
     },
     {
         id: 9,
         name: 'CARDIGAN TIGRE',
         price: 398.00,
         image: 'img/img_10.png',
-        installments: 10
+        installments: 10,
+        color: 'laranja'
     }
 ];
 
@@ -186,8 +196,9 @@ const applyFilters = (): void => {
     let filteredProducts = [...products];
     
     if (checkedColors.length > 0) {
-        // Aqui você pode implementar a lógica de filtro por cor
-        // Por enquanto vamos manter todos os produtos
+        filteredProducts = filteredProducts.filter(product => 
+            checkedColors.includes(product.color)
+        );
     }
     
     currentProducts = filteredProducts;
@@ -208,8 +219,8 @@ sizeButtons.forEach(button => {
 });
 
 function main() {
-  console.log(serverUrl);
-  renderProducts();
+    console.log(serverUrl);
+    renderProducts();
 }
 
 document.addEventListener("DOMContentLoaded", main);
