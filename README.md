@@ -74,3 +74,74 @@ O objetivo desse desafio é avaliar a seus conhecimentos fundamentais de front e
 - Adição de processo no gulp para otimizar imagens
 
 ##### Dúvidas: [vinicius.delfino@cadastra.com](mailto:vinicius.delfino@cadastra.com?subject=Dúvida%20Vaga%20DEV%20-%20Cadastra)
+
+## Como executar o projeto
+
+### Pré-requisitos
+
+- Node.js (versão 14 ou superior)
+- NPM (geralmente vem com o Node.js)
+
+### Instalação
+
+1. Clone o repositório
+```bash
+git clone https://github.com/[seu-usuario]/desenvolvedor-cadastra.git
+cd desenvolvedor-cadastra
+```
+
+2. Instale as dependências
+```bash
+npm install
+```
+
+### Executando o projeto
+
+1. Para iniciar o servidor de desenvolvimento
+```bash
+npm start
+```
+
+O navegador abrirá automaticamente em `http://localhost:3000`
+
+### Funcionalidades implementadas
+
+- Grid de produtos com layout responsivo
+- Filtros por:
+  - Cores
+  - Tamanhos
+  - Faixa de preço
+- Ordenação por:
+  - Menor preço
+  - Maior preço
+- Paginação com botão "Carregar Mais"
+- Layout responsivo para mobile
+- Formatação de preços em Real (R$)
+- Cálculo de parcelas
+
+### Estrutura do projeto
+
+```
+desenvolvedor-cadastra/
+├── src/
+│   ├── img/          # Imagens dos produtos
+│   ├── scss/         # Estilos SASS
+│   ├── ts/           # TypeScript
+│   └── index.html    # Página principal
+├── dist/             # Arquivos compilados (gerado automaticamente)
+├── gulpfile.js       # Configuração do Gulp
+├── webpack.config.js # Configuração do Webpack
+└── package.json      # Dependências e scripts
+```
+
+### Tecnologias utilizadas
+
+- TypeScript
+- SASS/SCSS
+- Gulp
+- Webpack
+- BEM (metodologia CSS)
+
+### Contato
+
+- Email: [seu-email@exemplo.com]
