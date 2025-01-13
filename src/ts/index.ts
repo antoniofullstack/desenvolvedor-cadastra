@@ -295,6 +295,95 @@ if (showMoreColorsBtn) {
     });
 }
 
+// Mobile functionality
+const filterBtn = document.querySelector('[data-action="filter"]');
+const sortBtn = document.querySelector('[data-action="sort"]');
+const filtersPanel = document.querySelector('.filters');
+const overlay = document.createElement('div');
+overlay.className = 'overlay';
+document.body.appendChild(overlay);
+
+// Create sort modal
+const sortModal = document.createElement('div');
+sortModal.className = 'sort-modal';
+sortModal.innerHTML = `
+    <div class="sort-modal__header">
+        <h3>Ordenar por</h3>
+        <button class="sort-modal__close">&times;</button>
+    </div>
+    <div class="sort-modal__options">
+        <button data-sort="menor-preco">Menor preço</button>
+        <button data-sort="maior-preco">Maior preço</button>
+        <button data-sort="mais-vendidos">Mais vendidos</button>
+        <button data-sort="lancamentos">Lançamentos</button>
+    </div>
+`;
+document.body.appendChild(sortModal);
+
+// Filter button
+if (filterBtn) {
+    filterBtn.addEventListener('click', () => {
+        filtersPanel?.classList.add('active');
+        overlay.classList.add('active');
+    });
+}
+
+// Sort button
+if (sortBtn) {
+    sortBtn.addEventListener('click', () => {
+        sortModal.classList.add('active');
+        overlay.classList.add('active');
+    });
+}
+
+// Close modals when clicking overlay
+overlay.addEventListener('click', () => {
+    filtersPanel?.classList.remove('active');
+    sortModal.classList.remove('active');
+    overlay.classList.remove('active');
+});
+
+// Close sort modal with X button
+const sortModalClose = sortModal.querySelector('.sort-modal__close');
+if (sortModalClose) {
+    sortModalClose.addEventListener('click', () => {
+        sortModal.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+}
+
+// Close filters with X button
+const filtersClose = document.querySelector('.filters__close');
+if (filtersClose) {
+    filtersClose.addEventListener('click', () => {
+        filtersPanel?.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+}
+
+// Sort options
+const sortOptions = sortModal.querySelectorAll('[data-sort]');
+sortOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        const sortValue = (option as HTMLElement).dataset.sort;
+        if (sortValue) {
+            // Remove active from all options
+            sortOptions.forEach(opt => opt.classList.remove('active'));
+            // Add active to clicked option
+            option.classList.add('active');
+            // Update select value
+            if (sortSelect) {
+                sortSelect.value = sortValue;
+                // Trigger change event
+                sortSelect.dispatchEvent(new Event('change'));
+            }
+            // Close modal
+            sortModal.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    });
+});
+
 function main() {
     console.log('Initializing product grid...');
     renderProducts();
