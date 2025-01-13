@@ -18,6 +18,10 @@ module.exports = (paths) => ({
         include: path.resolve(__dirname, paths.scripts.src),
         use: "ts-loader",
       },
+      {
+        test: /\.(svg|png|jpg|jpeg|gif)$/,
+        type: "asset/resource",
+      },
     ],
   },
   plugins: [],

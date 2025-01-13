@@ -1,17 +1,5 @@
-import { Product } from "./Product";
-
-const serverUrl = "http://localhost:5000";
-
-interface Product {
-    id: number;
-    name: string;
-    price: number;
-    image: string;
-    installments: number;
-}
-
 // Product data
-const products: Product[] = [
+const products = [
     {
         id: 1,
         name: 'CAMISETA MESCLA',
@@ -78,19 +66,19 @@ const products: Product[] = [
 ];
 
 // DOM Elements
-const productsGrid = document.querySelector('.products__grid') as HTMLElement;
-const loadMoreBtn = document.querySelector('.products__load-more') as HTMLButtonElement;
-const sortSelect = document.querySelector('.products__sort') as HTMLSelectElement;
+const productsGrid = document.querySelector('.products__grid');
+const loadMoreBtn = document.querySelector('.products__load-more');
+const sortSelect = document.querySelector('.products__sort');
 const filterCheckboxes = document.querySelectorAll('.filters__item input[type="checkbox"]');
 const sizeButtons = document.querySelectorAll('.size-btn');
 
 // State
-let currentProducts: Product[] = [...products];
+let currentProducts = [...products];
 let currentPage = 1;
 const productsPerPage = 6;
 
 // Utility functions
-const formatPrice = (price: number): string => {
+const formatPrice = (price) => {
     return price.toLocaleString('pt-BR', {
         style: 'currency',
         currency: 'BRL',
@@ -99,13 +87,13 @@ const formatPrice = (price: number): string => {
     });
 };
 
-const calculateInstallment = (price: number, installments: number): string => {
+const calculateInstallment = (price, installments) => {
     const installmentValue = price / installments;
     return formatPrice(installmentValue);
 };
 
 // Product card template
-const createProductCard = (product: Product): HTMLElement => {
+const createProductCard = (product) => {
     const card = document.createElement('article');
     card.className = 'product-card';
     
@@ -125,12 +113,7 @@ const createProductCard = (product: Product): HTMLElement => {
 };
 
 // Render products
-const renderProducts = (): void => {
-    if (!productsGrid) {
-        console.error('Products grid element not found');
-        return;
-    }
-
+const renderProducts = () => {
     // Clear existing products if it's the first page
     if (currentPage === 1) {
         productsGrid.innerHTML = '';
@@ -145,42 +128,35 @@ const renderProducts = (): void => {
     });
     
     // Show/hide load more button
-    if (loadMoreBtn) {
-        loadMoreBtn.style.display = endIndex >= currentProducts.length ? 'none' : 'block';
-    }
+    loadMoreBtn.style.display = endIndex >= currentProducts.length ? 'none' : 'block';
 };
 
 // Event Handlers
-if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', () => {
-        currentPage++;
-        renderProducts();
-    });
-}
+loadMoreBtn.addEventListener('click', () => {
+    currentPage++;
+    renderProducts();
+});
 
-if (sortSelect) {
-    sortSelect.addEventListener('change', (e: Event) => {
-        const target = e.target as HTMLSelectElement;
-        const sortBy = target.value;
-        
-        switch(sortBy) {
-            case 'menor-preco':
-                currentProducts.sort((a, b) => a.price - b.price);
-                break;
-            case 'maior-preco':
-                currentProducts.sort((a, b) => b.price - a.price);
-                break;
-            // Add more sorting options as needed
-        }
-        
-        currentPage = 1;
-        renderProducts();
-    });
-}
+sortSelect.addEventListener('change', (e) => {
+    const sortBy = e.target.value;
+    
+    switch(sortBy) {
+        case 'menor-preco':
+            currentProducts.sort((a, b) => a.price - b.price);
+            break;
+        case 'maior-preco':
+            currentProducts.sort((a, b) => b.price - a.price);
+            break;
+        // Add more sorting options as needed
+    }
+    
+    currentPage = 1;
+    renderProducts();
+});
 
 // Filter handlers
-const applyFilters = (): void => {
-    const checkedColors = Array.from(document.querySelectorAll<HTMLInputElement>('.filters__item input[name="cor"]:checked'))
+const applyFilters = () => {
+    const checkedColors = Array.from(document.querySelectorAll('.filters__item input[name="cor"]:checked'))
         .map(input => input.value);
     
     let filteredProducts = [...products];
@@ -207,9 +183,7 @@ sizeButtons.forEach(button => {
     });
 });
 
-function main() {
-  console.log(serverUrl);
-  renderProducts();
-}
-
-document.addEventListener("DOMContentLoaded", main);
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    renderProducts();
+});
