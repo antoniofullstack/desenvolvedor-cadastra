@@ -9,6 +9,7 @@ interface Product {
     image: string;
     installments: number;
     color: string;
+    size: string[];
 }
 
 // Product data
@@ -19,7 +20,8 @@ const products: Product[] = [
         price: 28.00,
         image: 'img/img_2.png',
         installments: 3,
-        color: 'cinza'
+        color: 'cinza',
+        size: ['P', 'M', 'G']
     },
     {
         id: 2,
@@ -27,7 +29,8 @@ const products: Product[] = [
         price: 398.00,
         image: 'img/img_3.png',
         installments: 10,
-        color: 'branco'
+        color: 'branco',
+        size: ['P', 'M']
     },
     {
         id: 3,
@@ -35,7 +38,8 @@ const products: Product[] = [
         price: 398.00,
         image: 'img/img_4.png',
         installments: 10,
-        color: 'laranja'
+        color: 'laranja',
+        size: ['M', 'G', 'GG']
     },
     {
         id: 4,
@@ -43,7 +47,8 @@ const products: Product[] = [
         price: 99.90,
         image: 'img/img_5.png',
         installments: 3,
-        color: 'branco'
+        color: 'branco',
+        size: ['P', 'M', 'G']
     },
     {
         id: 5,
@@ -51,7 +56,8 @@ const products: Product[] = [
         price: 129.90,
         image: 'img/img_6.png',
         installments: 3,
-        color: 'amarelo'
+        color: 'amarelo',
+        size: ['P', 'M']
     },
     {
         id: 6,
@@ -59,7 +65,8 @@ const products: Product[] = [
         price: 398.00,
         image: 'img/img_7.png',
         installments: 10,
-        color: 'azul'
+        color: 'azul',
+        size: ['M', 'G', 'GG']
     },
     {
         id: 7,
@@ -67,7 +74,8 @@ const products: Product[] = [
         price: 120.00,
         image: 'img/img_8.png',
         installments: 3,
-        color: 'amarelo'
+        color: 'amarelo',
+        size: ['P', 'M']
     },
     {
         id: 8,
@@ -75,7 +83,8 @@ const products: Product[] = [
         price: 398.00,
         image: 'img/img_9.png',
         installments: 10,
-        color: 'branco'
+        color: 'branco',
+        size: ['P', 'M', 'G']
     },
     {
         id: 9,
@@ -83,7 +92,8 @@ const products: Product[] = [
         price: 398.00,
         image: 'img/img_10.png',
         installments: 10,
-        color: 'laranja'
+        color: 'laranja',
+        size: ['M', 'G']
     }
 ];
 
@@ -193,11 +203,23 @@ const applyFilters = (): void => {
     const checkedColors = Array.from(document.querySelectorAll<HTMLInputElement>('.filters__item input[name="cor"]:checked'))
         .map(input => input.value);
     
+    const activeSize = Array.from(document.querySelectorAll<HTMLElement>('.size-btn.active'))
+        .map(button => button.textContent?.trim())
+        .filter((size): size is string => size !== undefined);
+    
     let filteredProducts = [...products];
     
+    // Filter by color
     if (checkedColors.length > 0) {
         filteredProducts = filteredProducts.filter(product => 
             checkedColors.includes(product.color)
+        );
+    }
+    
+    // Filter by size
+    if (activeSize.length > 0) {
+        filteredProducts = filteredProducts.filter(product => 
+            product.size.some(size => activeSize.includes(size))
         );
     }
     
@@ -211,15 +233,18 @@ filterCheckboxes.forEach(checkbox => {
 });
 
 sizeButtons.forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Remove active class from all buttons
         sizeButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
         button.classList.add('active');
         applyFilters();
     });
 });
 
 function main() {
-    console.log(serverUrl);
+    console.log('Initializing product grid...');
     renderProducts();
 }
 
